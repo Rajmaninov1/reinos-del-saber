@@ -4,13 +4,13 @@
 
 **Nombre:** Reinos del Saber. Resume la idea central del juego. Cada jugador hace crecer su reino con lo que sabe, porque gana territorio respondiendo correctamente.
 
-**Tipo de juego:** educativo y de estrategia por turnos, para niños y adultos. "Por turnos" significa que los jugadores actúan uno a la vez. Esta modalidad suele llamarse "Hot Seat", porque todos los jugadores se turnan en un mismo computador, como si pasaran el asiento caliente.
+**Tipo de juego:** educativo y de estrategia por turnos, para niños y adultos. "Por turnos" significa que los jugadores actúan uno a la vez.
 
 **Propósito educativo:** practicar operaciones matemáticas, vocabulario en inglés, sinónimos y antónimos.
 
-**Número de jugadores:** siempre participan 3. Pueden ser de 1 a 3 personas, que se turnan en un mismo computador. Si faltan personas, el computador juega en los puestos restantes; en el juego, esos puestos se llaman CPU.
+**Número de jugadores:** siempre participan 3. Pueden ser de 1 a 3 personas, que se turnan en un mismo computador. Esta modalidad suele llamarse "Hot Seat", porque es como si se pasaran el asiento caliente. Si faltan personas, el computador juega en los puestos restantes; en el juego, esos puestos se llaman CPU.
 
-**Originalidad:** combina la conquista de territorio con preguntas de conocimiento, y cada persona responde preguntas de su propio nivel.
+**Originalidad:** une la conquista de territorio con preguntas de conocimiento, con tres elementos propios: cada persona responde según su nivel, el tema depende del país atacado y, cuanto más territorio tiene un jugador, más acciones gana por turno.
 
 ## El juego en pocas palabras
 
@@ -27,7 +27,7 @@ La primera versión del juego incluye lo siguiente:
 - Preguntas con 4 opciones de respuesta.
 - 3 niveles de preguntas: fácil, medio y difícil. Cada persona elige el suyo al iniciar la partida.
 - Preguntas de traducción entre español e inglés.
-- 3 dificultades para la CPU: cuanto más alta es la dificultad, más veces acierta (aumentan las probabilidades de acertar).
+- 3 dificultades para la CPU: cuanto más alta es la dificultad, más veces acierta.
 - Un tiempo límite para responder, que depende del nivel.
 - Partidas que se juegan de principio a fin, sin guardarlas para continuar después.
 
@@ -41,7 +41,7 @@ Toda casilla pertenece a un país desde el inicio y la controla el jugador de es
 
 ### Turno
 
-En cada turno, el jugador puede hacer varias acciones. Hacer una acción significa atacar una casilla, y el ataque cuesta 1 acción aunque no logre conquistarla.
+En cada turno, el jugador debe usar todas sus acciones; al agotarlas, el turno pasa al siguiente jugador. Hacer una acción significa atacar una casilla, y el ataque cuesta 1 acción aunque no logre conquistarla.
 
 La cantidad de acciones depende de cuántas casillas tenga el jugador en total, y ese total también define el tamaño de su sede:
 
@@ -67,7 +67,7 @@ Para conquistar una casilla hay que responder bien, una tras otra, tantas pregun
 
 ### Preguntas
 
-El tema de las preguntas depende del país al que pertenece la casilla atacada al inicio del turno:
+El tema de las preguntas depende del país al que pertenece la casilla atacada:
 
 | País | Tema de las preguntas |
 | --- | --- |
@@ -75,7 +75,7 @@ El tema de las preguntas depende del país al que pertenece la casilla atacada a
 | Idiomas | Vocabulario en inglés |
 | Palabras | Sinónimos y antónimos |
 
-Cuando un jugador conquista una casilla, esta pasa a formar parte de su país. Si otro jugador la ataca después, las preguntas serán del tema de ese nuevo país en el próximo turno.
+Cuando un jugador conquista una casilla, esta pasa a formar parte de su país. Desde el siguiente turno, quien la ataque recibirá preguntas del tema de ese nuevo país.
 
 El nivel de las preguntas depende de quien responde, y cada nivel da un tiempo distinto para contestar:
 
@@ -93,7 +93,7 @@ La partida termina en el momento en que un jugador conquista una sede rival, y e
 
 ## Imágenes
 
-La pantalla de partida muestra el mapa de 81 casillas, resalta con borde blanco las casillas enemigas que se pueden atacar y presenta la pregunta activa. El número de cada casilla resaltada indica cuántos aciertos seguidos se necesitan para conquistarla.
+El diseño previsto de la pantalla de partida muestra el mapa de 81 casillas, resalta con borde blanco las casillas enemigas que se pueden atacar y presenta la pregunta activa. El número de cada casilla resaltada indica cuántos aciertos seguidos se necesitan para conquistarla.
 
 ![Pantalla de partida con el mapa de 81 casillas y una pregunta activa](<../imagenes/Pantalla de partida@1x.png>)
 
