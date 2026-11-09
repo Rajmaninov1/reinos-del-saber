@@ -159,7 +159,7 @@ El modelo tiene 20 tipos en 4 paquetes y se puede ejecutar y probar sin abrir la
 
 | Tipo | Atributos | Métodos principales |
 | --- | --- | --- |
-| `Coordenada` (record) | `q`, `r` | `vecinos()`, `distanciaA(otra)` |
+| `Coordenada` (record) | `q`, `r` | `vecinos()` |
 | `Pais` (enum) | `NUMEROS`, `IDIOMAS`, `PALABRAS` | Ninguno |
 | `Terreno` (enum) | `TIERRA(1)`, `AGUA(2)` | `getDefensaBase()` |
 | `Casilla` | `coordenada`, `pais`, `terreno`, `esSede` | `conquistar(pais)`, `getDefensa()` |
@@ -216,7 +216,7 @@ El cambio de turno es directo y no tiene pantalla intermedia, porque ninguna inf
 
 ## Retos y datos
 
-Cada fila de `retos/preguntas.csv` es una pregunta completa, con su enunciado, la respuesta correcta y 3 opciones incorrectas. Todos los temas usan el mismo formato y el mismo código, así que agregar preguntas no requiere programar. El mínimo de contenido es de 20 filas por combinación de país y nivel, es decir, 180 filas en total.
+Cada fila de `retos/preguntas.csv` es una pregunta completa, con su enunciado, la respuesta correcta y 3 opciones incorrectas. Todos los temas usan el mismo formato y el mismo código, así que agregar preguntas no requiere programar. El mínimo de contenido es de 20 filas por combinación de país y nivel, es decir, 180 filas en total, y se completa para la entrega 3.
 
 ```csv
 pais;nivel;enunciado;correcta;incorrecta1;incorrecta2;incorrecta3
@@ -236,9 +236,9 @@ El archivo se lee en UTF-8 y el `;` queda reservado como separador. Los enunciad
 | Al llamar a `agregar(reto)` | Que no exista otra pregunta con el mismo país, nivel y enunciado |
 | Al leer cada línea en `cargar(...)` | Omite el encabezado y las líneas vacías, y recorta los espacios de cada campo; exige 7 campos y valores válidos de `pais` y `nivel`; si una fila falla, el error indica su número de línea |
 | Al terminar `cargar(...)` | Al menos una pregunta para cada una de las 9 combinaciones de país y nivel |
-| En `mvn test` | Una prueba carga el `preguntas.csv` real y exige 20 filas o más por combinación, así que una fila inválida o un tema incompleto rompe la construcción |
+| En `mvn test` | Una prueba carga el `preguntas.csv` real, así que una fila inválida rompe la construcción |
 
-La validación detecta errores de formato, pero no de contenido. Por eso, otra persona del equipo debe revisar cada fila una vez, para comprobar que su nivel sea el adecuado y que ninguna opción incorrecta también sea válida.
+La validación detecta errores de formato, pero no de contenido: quien escribe la fila comprueba que su nivel sea el adecuado y que ninguna opción incorrecta también sea válida.
 
 ### Nivel de dificultad
 
@@ -347,7 +347,7 @@ La entrega 2 exige el modelo con pruebas JUnit y Javadoc, así que cada clase co
 
 | Clase | Casos de prueba |
 | --- | --- |
-| `Coordenada` | Tiene 6 vecinos; la distancia es correcta y simétrica |
+| `Coordenada` | Tiene 6 vecinos |
 | `CargadorMapa` | Carga 81 casillas, 27 por país, 12 de agua y 3 sedes; cada sede está a 5 ataques o más de un enemigo; rechaza símbolos desconocidos |
 | `Mapa` | Todas las casillas forman un solo continente; devuelve adyacentes correctos; `esFrontera` es correcta; `distancia` rodea los huecos del mapa |
 | `Casilla` | La Defensa depende del terreno o la sede; conquistar cambia el país de la casilla |
@@ -359,7 +359,7 @@ La entrega 2 exige el modelo con pruebas JUnit y Javadoc, así que cada clase co
 | `Partida` | Conquistar una sede termina la partida y declara ganador al atacante |
 | `Partida` | `iniciar()` sortea el orden y los países con un generador controlado; los métodos rechazan las llamadas fuera de estado; `ejecutarAccionCPU()` resuelve una acción completa y puede terminar la partida |
 | `EstrategiaAvance` | Prefiere una sede alcanzable; respeta el desempate; avanza hacia la sede rival más próxima; no elige casillas inválidas |
-| `BancoRetos` | Omite el encabezado; rechaza filas mal formadas indicando la línea; rechaza preguntas repetidas; exige las 9 combinaciones de país y nivel; entrega retos del país y nivel pedidos; no entrega la misma pregunta dos veces seguidas; el `preguntas.csv` real carga sin errores y tiene 20 filas o más por combinación |
+| `BancoRetos` | Omite el encabezado; rechaza filas mal formadas indicando la línea; rechaza preguntas repetidas; exige las 9 combinaciones de país y nivel; entrega retos del país y nivel pedidos; no entrega la misma pregunta dos veces seguidas; el `preguntas.csv` real carga sin errores |
 | `ConfiguracionPartida` | Acepta de 1 a 3 humanos con nombre y nivel; rechaza datos incompletos, nombres repetidos y nombres reservados de CPU |
 | `JugadorCPU` | Con un generador aleatorio controlado, acierta o falla según su probabilidad |
 | `Partida` | Atacar rechaza casillas propias o sin frontera con el país del jugador |
@@ -377,7 +377,7 @@ El mayor riesgo está en coordinar la partida con la interfaz, por lo que la má
 | Decisión de la CPU | Media | La distancia hexagonal ignora los huecos del mapa | Calcular la distancia a la sede con BFS sobre las casillas del mapa |
 | Mapa hexagonal | Media | Un error en las filas desplazadas rompe vecinos y frontera | Empezar por `Coordenada` y `Mapa` con JUnit, y hacer pronto el mapa clicable |
 | Actualizar la vista | Media | Cada conquista cambia color, frontera, tamaño, acciones y crecimiento | Un solo método `refrescar()` redibuja desde el estado del modelo |
-| Contenido de las preguntas | Media | Una opción incorrecta también puede ser válida, o una pregunta puede quedar en el nivel equivocado | Aplicar las reglas de nivel y hacer que otra persona revise cada fila; `BancoRetos` valida el formato |
+| Contenido de las preguntas | Media | Una opción incorrecta también puede ser válida, o una pregunta puede quedar en el nivel equivocado | Aplicar las reglas de nivel; `BancoRetos` valida el formato |
 
 El contenido de las 180 filas, el Javadoc de cada miembro, los diagramas y la presentación son poco complejos, pero requieren tiempo. Conviene avanzarlos desde el inicio.
 
@@ -402,7 +402,6 @@ Durante todo el proyecto:
 El enunciado pide un PDF con el nombre y el porqué de su elección, la descripción detallada, el tipo de juego, el número de jugadores, las reglas e imágenes. El tutor decide si el juego es viable.
 
 - [ ] Revisar que la propuesta cubra todos los puntos exigidos.
-- [ ] Actualizar la imagen del panel lateral para que Después de fallar muestre el botón Continuar.
 - [ ] Exportar la propuesta a PDF y comprobar que incluya las 2 imágenes.
 - [ ] Enviar el PDF al tutor.
 - [ ] Instalar el JDK 21 y Maven en cada equipo, siguiendo el README.
@@ -418,7 +417,7 @@ El enunciado pide el código de todas las clases con lógica de negocio, sus pru
 | --- | --- | --- | --- | --- |
 | 1 | Mapa | `Coordenada`, `Pais`, `Terreno`, `Casilla`, `Mapa`, `CargadorMapa`, `mapa.txt` | Base del proyecto | Pasan las pruebas de carga, vecinos, frontera y distancia |
 | 2 | Retos | `Nivel`, `Reto`, `BancoRetos` | `Pais` | Pasan todas las validaciones del banco |
-| 3 | Preguntas | `preguntas.csv` | Formato del paso 2 | Hay 180 filas revisadas por otra persona y la prueba del archivo real pasa |
+| 3 | Preguntas | `preguntas.csv` | Formato del paso 2 | Hay al menos una pregunta por cada combinación de país y nivel, y la prueba del archivo real pasa |
 | 4 | Jugadores y reglas de apoyo | `Jugador`, `JugadorHumano`, `DificultadCPU`, `ConfiguracionPartida`, `TamanoCiudad`, `SerieRetos` | Pasos 1 y 2 | Pasan sus pruebas |
 | 5 | Partida | `EstadoPartida`, `Partida` | Pasos 1, 2 y 4 | Funcionan ataque, series, acciones, turnos y final de partida |
 | 6 | CPU | `EstrategiaCPU`, `EstrategiaAvance`, `JugadorCPU`, `ejecutarAccionCPU()` | Paso 5 | Una partida completa con respuestas simuladas llega a `FINALIZADA` |
@@ -446,7 +445,7 @@ El enunciado pide el código completo del modelo y de la interfaz, sus diagramas
 | 4 | Retos | `PanelRetoView` | Paso 3 | Funcionan los 5 estados del panel, el temporizador, las teclas y la protección contra doble clic |
 | 5 | Turno de la CPU | `PartidaController` | Paso 4 | La CPU juega sus acciones con pausas y sin bloquear la ventana |
 | 6 | Final | `PantallaFinalView` | Paso 5 | Se muestra el ganador y se puede volver a Configuración |
-| 7 | Ajustes | Toda la aplicación | Paso 6 | Se cumplen los criterios de aceptación y se revisaron las probabilidades de la CPU jugando |
+| 7 | Ajustes y preguntas | `preguntas.csv` y toda la aplicación | Paso 6 | Se cumplen los criterios de aceptación y el banco tiene las 180 filas |
 
 Los pasos 3 a 5 concentran los riesgos altos, así que conviene hacerlos primero con una interfaz básica y dejar los detalles visuales para el final.
 
