@@ -21,16 +21,26 @@ Las demás dependencias, como JavaFX y JUnit, las descarga Maven la primera vez 
 
 ### Linux y macOS
 
-Con [SDKMAN](https://sdkman.io/), que no requiere permisos de administrador:
+Con [Homebrew](https://brew.sh/), que no requiere permisos de administrador si ya está instalado:
 
 ```bash
-curl -s "https://get.sdkman.io" | bash
-source "$HOME/.sdkman/bin/sdkman-init.sh"
-sdk install java 21.0.13-tem
-sdk install maven
+brew install openjdk@21 maven
 ```
 
-Si `21.0.13-tem` ya no aparece, busca la versión 21 más reciente de Temurin con `sdk list java`. También sirve el gestor de paquetes del sistema, siempre que instale el JDK 21 y Maven 3.9 o superior.
+Maven hace que Homebrew instale también una versión más reciente de Java, así que hay que indicar que el proyecto usa la 21. Agrega estas líneas al final de `~/.bashrc` y abre una terminal nueva:
+
+```bash
+export JAVA_HOME="/home/linuxbrew/.linuxbrew/opt/openjdk@21/libexec"
+export PATH="$JAVA_HOME/bin:$PATH"
+```
+
+En macOS, agrégalas a `~/.zshrc` y usa este valor para `JAVA_HOME`:
+
+```bash
+export JAVA_HOME="$(brew --prefix openjdk@21)/libexec/openjdk.jdk/Contents/Home"
+```
+
+También sirve otra forma de instalación, siempre que deje el JDK 21 y Maven 3.9 o superior.
 
 ### Windows
 
