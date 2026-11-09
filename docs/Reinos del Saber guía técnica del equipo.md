@@ -35,119 +35,7 @@ src/test/java/com/reinos/  Una clase de prueba por clase con lógica
 
 ### Configuración inicial
 
-Estos archivos crean la base del proyecto. La configuración se probó con Java 21.0.13 y Maven 3.10.0.
-
-`pom.xml`, en la raíz del proyecto:
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-
-  <groupId>com.reinos</groupId>
-  <artifactId>reinos-del-saber</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
-
-  <properties>
-    <maven.compiler.release>21</maven.compiler.release>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <javafx.version>21.0.13</javafx.version>
-    <junit.version>5.14.4</junit.version>
-  </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-controls</artifactId>
-      <version>${javafx.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.16.0</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.6.1</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.12.0</version>
-        <configuration>
-          <show>private</show>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-maven-plugin</artifactId>
-        <version>0.0.8</version>
-        <configuration>
-          <mainClass>com.reinos.vista.Launcher</mainClass>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-</project>
-```
-
-`src/main/java/com/reinos/vista/Launcher.java`:
-
-```java
-package com.reinos.vista;
-
-import javafx.application.Application;
-
-/** Punto de entrada de la aplicación. */
-public final class Launcher {
-    private Launcher() { }
-
-    /**
-     * Inicia la aplicación.
-     *
-     * @param args argumentos de la línea de comandos
-     */
-    public static void main(String[] args) {
-        Application.launch(JuegoApp.class, args);
-    }
-}
-```
-
-`src/main/java/com/reinos/vista/JuegoApp.java`:
-
-```java
-package com.reinos.vista;
-
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
-/** Ventana principal del juego. */
-public class JuegoApp extends Application {
-    @Override
-    public void start(Stage ventana) {
-        ventana.setScene(new Scene(new StackPane(new Label("Reinos del Saber")), 1280, 800));
-        ventana.setTitle("Reinos del Saber");
-        ventana.show();
-    }
-}
-```
+La base del proyecto ya está creada: `pom.xml`, `Launcher` y `JuegoApp`. La configuración se probó con Java 21.0.13 y Maven 3.10.0.
 
 `mvn javafx:run` inicia el juego a través de `Launcher`, que no debe extender `Application`: como el proyecto no usa `module-info.java`, esa separación evita el error `JavaFX runtime components are missing`. `JuegoApp` es un punto de partida, y su contenido se reemplaza al construir las pantallas.
 
@@ -449,11 +337,9 @@ Durante todo el proyecto:
 
 El enunciado pide un PDF con el nombre y el porqué de su elección, la descripción detallada, el tipo de juego, el número de jugadores, las reglas e imágenes. El tutor decide si el juego es viable.
 
-- [ ] Revisar que la propuesta cubra todos los puntos exigidos.
 - [ ] Exportar la propuesta a PDF y comprobar que incluya las 2 imágenes.
 - [ ] Enviar el PDF al tutor.
-- [ ] Instalar el JDK 21 y Maven en cada equipo, siguiendo el README.
-- [ ] Crear la base del proyecto con [Configuración inicial](#configuración-inicial) y comprobar que `mvn javafx:run` abra la ventana en cada equipo.
+- [ ] Instalar el JDK 21 y Maven en cada equipo, siguiendo el README, y comprobar que `mvn javafx:run` abra la ventana.
 
 **Se cierra cuando** el PDF esté enviado y las observaciones del tutor estén incorporadas en la propuesta y en esta guía. Mientras llega su respuesta, se puede avanzar con el mapa y los retos.
 
@@ -463,7 +349,7 @@ El enunciado pide el código de todas las clases con lógica de negocio, sus pru
 
 | Orden | Trabajo | Clases y archivos | Depende de | Listo cuando |
 | --- | --- | --- | --- | --- |
-| 1 | Mapa | `Coordenada`, `Pais`, `Terreno`, `Casilla`, `Mapa`, `CargadorMapa`, `mapa.txt` | Base del proyecto | Pasan las pruebas de carga, vecinos, frontera y distancia |
+| 1 | Mapa | `Coordenada`, `Pais`, `Terreno`, `Casilla`, `Mapa`, `CargadorMapa`, `mapa.txt` | Ninguna | Pasan las pruebas de carga, vecinos, frontera y distancia |
 | 2 | Retos | `Nivel`, `Reto`, `BancoRetos` | `Pais` | Pasan todas las validaciones del banco |
 | 3 | Preguntas | `preguntas.csv` | Formato del paso 2 | Hay al menos una pregunta por cada combinación de país y nivel, y la prueba del archivo real pasa |
 | 4 | Jugadores y reglas de apoyo | `Jugador`, `JugadorHumano`, `DificultadCPU`, `ConfiguracionPartida`, `TamanoCiudad`, `SerieRetos` | Pasos 1 y 2 | Pasan sus pruebas |
