@@ -2,81 +2,101 @@
 
 ## Presentación del juego
 
-**Nombre:** Reinos del Saber. Resume la idea central: cada jugador construye su reino con lo que sabe, porque el territorio se gana respondiendo correctamente.
+**Nombre:** Reinos del Saber. Resume la idea central del juego. Cada jugador hace crecer su reino con lo que sabe, porque gana territorio respondiendo correctamente.
 
-**Tipo de juego:** educativo de estrategia por turnos, para niños y adultos.
+**Tipo de juego:** educativo y de estrategia por turnos, para niños y adultos. "Por turnos" significa que los jugadores actúan uno a la vez. Esta modalidad suele llamarse "Hot Seat", porque todos los jugadores se turnan en un mismo computador, como si pasaran el asiento caliente.
 
 **Propósito educativo:** practicar operaciones matemáticas, vocabulario en inglés, sinónimos y antónimos.
 
-**Número de jugadores:** 3 participantes, de 1 a 3 humanos en un mismo computador; los puestos restantes son CPU.
+**Número de jugadores:** siempre participan 3. Pueden ser de 1 a 3 personas, que se turnan en un mismo computador. Si faltan personas, el computador juega en los puestos restantes; en el juego, esos puestos se llaman CPU.
 
-**Originalidad:** combina la conquista de territorio con retos de conocimiento, y cada jugador responde preguntas de su propio nivel.
+**Originalidad:** combina la conquista de territorio con preguntas de conocimiento, y cada persona responde preguntas de su propio nivel.
+
+## El juego en pocas palabras
+
+Tres jugadores comparten un mapa dividido en casillas, y cada uno empieza con un país de 27 casillas. En su turno, un jugador elige una casilla enemiga junto a su territorio y responde preguntas para quedarse con ella. Cada jugador tiene una sede, que es su casilla principal, como una capital. Gana quien conquiste primero la sede de otro jugador.
 
 ## Alcance
 
-La versión mínima es un juego de conquista por turnos para 3 participantes en un mapa fijo de 81 casillas, desarrollado en Java con JavaFX. De 1 a 3 participantes son humanos en un mismo computador (Hot Seat), y los puestos restantes son CPU.
+La primera versión del juego incluye lo siguiente:
 
-- 3 países de 27 casillas en un solo continente.
-- Casillas de tierra y agua.
-- Una sola acción: Atacar.
+- Un mapa de 81 casillas, siempre el mismo, con 3 países de 27 casillas unidos en un solo continente.
+- Casillas de tierra y de agua.
+- Una sola acción posible: atacar una casilla.
 - Una sede por jugador, que puede ser aldea, pueblo o ciudad.
-- Preguntas de opción múltiple con 4 respuestas.
-- 3 niveles de dificultad elegidos al inicio.
-- Traducción entre español e inglés.
-- CPU con 3 dificultades.
-- Temporizador por nivel.
-- Partida de una sola sesión.
+- Preguntas con 4 opciones de respuesta.
+- 3 niveles de preguntas: fácil, medio y difícil. Cada persona elige el suyo al iniciar la partida.
+- Preguntas de traducción entre español e inglés.
+- 3 dificultades para la CPU: cuanto más alta es la dificultad, más veces acierta (aumentan las probabilidades de acertar).
+- Un tiempo límite para responder, que depende del nivel.
+- Partidas que se juegan de principio a fin, sin guardarlas para continuar después.
+
+El juego se desarrollará en Java y usará JavaFX para crear las ventanas y los gráficos.
 
 ## Reglas del juego
 
-Cada jugador representa un país y empieza con las 27 casillas de ese país. Gana quien conquiste primero una sede rival. El orden de los turnos y el país de inicio se sortean al crear la partida.
+Cada jugador representa un país y empieza con sus 27 casillas. Al crear la partida, un sorteo define el orden de los turnos y el país de cada jugador. Gana quien conquiste primero una sede rival.
+
+Toda casilla pertenece a un país desde el inicio y la controla el jugador de ese país. Por eso no hay casillas libres: para ganar territorio hay que quitárselo a otro jugador.
 
 ### Turno
 
-El tamaño de la sede depende del total de casillas del jugador y define sus acciones. La cantidad de acciones se calcula al iniciar el turno y no cambia durante ese turno.
+En cada turno, el jugador puede hacer varias acciones. Hacer una acción significa atacar una casilla, y el ataque cuesta 1 acción aunque no logre conquistarla.
 
-| Tamaño | Casillas del jugador | Acciones por turno |
+La cantidad de acciones depende de cuántas casillas tenga el jugador en total, y ese total también define el tamaño de su sede:
+
+| Tamaño de la sede | Casillas del jugador | Acciones por turno |
 | --- | --- | --- |
 | Aldea | Hasta 27 | 2 |
-| Pueblo | 28 a 37 | 3 |
+| Pueblo | De 28 a 37 | 3 |
 | Ciudad | 38 o más | 4 |
 
-| Acción | Costo | Casilla válida | Efecto |
-| --- | --- | --- | --- |
-| Atacar | 1 acción | De otro país y en la frontera del tuyo | Serie de retos; si la completas, la casilla es tuya |
+Las acciones se cuentan al empezar el turno. Si el jugador conquista casillas durante su turno y cambia de tamaño, las acciones adicionales empiezan a contar en su siguiente turno.
 
-**Frontera:** solo se puede atacar una casilla de otro país que toque al menos una casilla del país del jugador. No existen casillas libres: toda casilla pertenece a un país desde el inicio y la controla el jugador de ese país.
+Solo se puede atacar una casilla de otro país que toque, por al menos uno de sus lados, una casilla del país del jugador. Esa zona de contacto entre países se llama **frontera**.
 
-### Serie de retos
+### Cómo se conquista una casilla
 
-Atacar pide acertar seguido tantos retos como Defensa tenga la casilla. Un fallo o un tiempo agotado termina la serie y consume la acción.
+Para conquistar una casilla hay que responder bien, una tras otra, tantas preguntas como indique su **Defensa**. Si el jugador falla una pregunta o se le acaba el tiempo, el ataque termina, la casilla no cambia de dueño y la acción se pierde.
 
-| Casilla | Defensa |
+| Tipo de casilla | Defensa (aciertos seguidos necesarios) |
 | --- | --- |
 | Tierra | 1 |
 | Agua | 2 |
 | Sede | 4 |
 
-### Retos
+### Preguntas
 
-- El tema depende del país al que pertenece la casilla: Números, Idiomas o Palabras. Al conquistarla, pasa al país del conquistador, y desde el siguiente turno sus retos usan ese tema.
-- El nivel depende de quien responde, y cada intento recibe un reto nuevo.
-- Al fallar, el jugador ve la respuesta correcta.
+El tema de las preguntas depende del país al que pertenece la casilla atacada al inicio del turno:
 
-| Nivel | Tiempo por reto |
+| País | Tema de las preguntas |
 | --- | --- |
-| Fácil | 30 s |
-| Medio | 20 s |
-| Difícil | 15 s |
+| Números | Operaciones matemáticas |
+| Idiomas | Vocabulario en inglés |
+| Palabras | Sinónimos y antónimos |
+
+Cuando un jugador conquista una casilla, esta pasa a formar parte de su país. Si otro jugador la ataca después, las preguntas serán del tema de ese nuevo país en el próximo turno.
+
+El nivel de las preguntas depende de quien responde, y cada nivel da un tiempo distinto para contestar:
+
+| Nivel | Tiempo por pregunta |
+| --- | --- |
+| Fácil | 30 segundos |
+| Medio | 20 segundos |
+| Difícil | 15 segundos |
+
+Cada intento presenta una pregunta nueva. Si el jugador falla, el juego le muestra la respuesta correcta.
 
 ### Final de la partida
 
-La partida termina de inmediato cuando un jugador conquista una sede rival, y ese jugador gana.
+La partida termina en el momento en que un jugador conquista una sede rival, y ese jugador gana.
 
 ## Imágenes
 
-La pantalla de partida muestra el mapa de 81 casillas, las casillas enemigas que se pueden atacar y un reto activo. El panel lateral cambia según el momento del turno.
+La pantalla de partida muestra el mapa de 81 casillas, resalta con borde blanco las casillas enemigas que se pueden atacar y presenta la pregunta activa. El número de cada casilla resaltada indica cuántos aciertos seguidos se necesitan para conquistarla.
 
-![Pantalla de partida con el mapa de 81 casillas y un reto activo](<../imagenes/Pantalla de partida@1x.png>)
+![Pantalla de partida con el mapa de 81 casillas y una pregunta activa](<../imagenes/Pantalla de partida@1x.png>)
 
-![Estados del panel lateral: sin casilla elegida, vista previa, últimos segundos, después de fallar y turno de la CPU](<../imagenes/Estados del panel lateral@1x.png>)
+El panel de la derecha cambia según lo que esté pasando en el turno.
+
+![Cinco estados del panel de la derecha: sin casilla elegida, vista previa del ataque, últimos segundos para responder, después de fallar y turno de la CPU](<../imagenes/Estados del panel lateral@1x.png>)
