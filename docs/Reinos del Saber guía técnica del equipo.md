@@ -330,6 +330,54 @@ Los clics en el mapa solo se atienden en Sin casilla y Vista previa, y las opcio
 
 Cuando `PartidaController` encuentra el estado `TURNO_CPU`, agenda `ejecutarAccionCPU()` con un `PauseTransition` de 1.200 ms, con la casilla atacada resaltada en el mapa. Nunca se usa `Thread.sleep` en el hilo de JavaFX.
 
+### Cómo armar las pantallas
+
+La aplicación usa una sola `Scene`, y `JuegoApp` cambia de pantalla reemplazando su raíz. La ventana no cambia de tamaño, porque el mapa usa medidas fijas. Cada pantalla recibe `JuegoApp` para poder pedir el cambio a la siguiente.
+
+```java
+public class JuegoApp extends Application {
+    private Scene escena;
+
+    @Override
+    public void start(Stage ventana) {
+        escena = new Scene(new ConfiguracionView(this), 1280, 800);
+        ventana.setScene(escena);
+        ventana.setTitle("Reinos del Saber");
+        ventana.setResizable(false);
+        ventana.show();
+    }
+
+    public void mostrar(Parent pantalla) {
+        escena.setRoot(pantalla);
+    }
+}
+```
+
+`PartidaController` arma la pantalla de partida con un `BorderPane`, siguiendo el [diseño de la pantalla](<../imagenes/Pantalla de partida@1x.png>):
+
+| Zona | Contenedor | Contenido |
+| --- | --- | --- |
+| Arriba | `HBox` | Título a la izquierda y ronda a la derecha, separados por una `Region` con `HBox.setHgrow(region, Priority.ALWAYS)` |
+| Centro | `MapaView`, que extiende `Pane` | Casillas y leyenda; `Pane` permite colocar cada elemento en coordenadas exactas |
+| Derecha | `VBox` de 365 px de ancho | `PanelEstadoView` con el turno, las acciones y el crecimiento; debajo, `PanelRetoView` con `VBox.setVgrow(panelReto, Priority.ALWAYS)` para ocupar el resto del alto |
+
+Dentro de `PanelRetoView`, las 4 opciones van en un `GridPane` de 2 columnas y 2 filas.
+
+Cada casilla se dibuja con `lado = 38` y `margen = 12`. El centro se calcula con las fórmulas de la sección [Mapa](#mapa), sumando `lado * sqrt(3) / 2 + margen` a `x` y `lado + margen` a `y`, para que las casillas del borde no queden cortadas. Con ese centro se calculan los 6 vértices:
+
+```java
+private Polygon crearHexagono(double centroX, double centroY, double lado) {
+    Polygon hexagono = new Polygon();
+    for (int i = 0; i < 6; i++) {
+        double angulo = Math.toRadians(60 * i + 30);
+        hexagono.getPoints().addAll(
+                centroX + lado * Math.cos(angulo),
+                centroY + lado * Math.sin(angulo));
+    }
+    return hexagono;
+}
+```
+
 ## CPU
 
 La CPU elige siempre la casilla que más la acerque a una sede rival. No lee preguntas: cada reto se resuelve con `random.nextDouble() < p`, donde `p` es su probabilidad de acierto (0,5, 0,7 o 0,9).
