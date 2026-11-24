@@ -6,6 +6,7 @@ import com.reinos.modelo.retos.Nivel;
  * Jugador controlado por una persona.
  * <p>
  * Responde preguntas del nivel que eligió al configurar la partida.
+ * Jugador Humano hereda los atributos y métodos de Jugador
  * </p>
  */
 public class JugadorHumano extends Jugador {
