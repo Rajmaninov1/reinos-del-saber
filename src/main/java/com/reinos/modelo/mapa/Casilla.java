@@ -60,6 +60,10 @@ public class Casilla {
         if (nuevoPais == pais) {
             throw new IllegalArgumentException("La casilla ya pertenece a " + nuevoPais);
         }
+
+        else if (nuevoPais == null) {
+            throw new IllegalArgumentException("El país no puede ser nulo");
+        }
         pais = nuevoPais;
     }
 
